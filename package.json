@@ -1,0 +1,10 @@
+{
+  "name": "add-newline",
+  "version": "1.0.0",
+  "description": "Adds new line to all the files in the directory it is run",
+  "main": "index.js",
+  "repository": "git@github.com:existentialcoder/add-newline.git",
+  "author": "existentialcoder <shravanayyappa@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
