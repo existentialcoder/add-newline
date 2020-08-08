@@ -114,6 +114,8 @@ const mainApp = () => {
 
   const allFiles = getAllFiles(process.cwd());
   const configs = getConfigs();
+
+  configs.ignore.extensions = IGNORED_EXTENSIONS;
   const filesToProcess = getFilesToProcess(allFiles, configs);
 
   if (!filesToProcess.length) {
