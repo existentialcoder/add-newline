@@ -6,5 +6,61 @@
   "repository": "git@github.com:existentialcoder/add-newline.git",
   "author": "existentialcoder <shravanayyappa@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "lint": "eslint -f table . --fix"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "extends": "airbnb-base",
+    "overrides": [
+      {
+        "files": [
+          "*.js"
+        ],
+        "rules": {
+          "no-param-reassign": "off",
+          "no-prototype-builtins": "off",
+          "no-console": "off",
+          "no-unused-expressions": "off"
+        }
+      },
+      {
+        "files": [
+          "*.spec.js"
+        ],
+        "rules": {
+          "max-lines": [
+            "error",
+            1500
+          ],
+          "max-lines-per-function": [
+            "error",
+            1500
+          ],
+          "no-unused-expressions": "off",
+          "no-empty-function": "off",
+          "init-declarations": "off",
+          "no-magic-numbers": "off",
+          "func-names": "off",
+          "semi": "off",
+          "global-require": "off"
+        }
+      }
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/"
+  ],
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
 }

@@ -13,9 +13,9 @@ const DEFAULT_OPTIONS = {
     // TODO: Find an alternate method to stop writing to media files
     extensions: IGNORED_EXTENSIONS,
     dirs: [],
-    files: []
+    files: [],
   },
-  includeHiddenFiles: false
+  includeHiddenFiles: false,
 };
 
 // Retrieve all files in directory
@@ -23,7 +23,7 @@ const getAllFiles = (dir, allFiles) => {
   allFiles = allFiles || [];
   const dirFiles = fs.readdirSync(dir);
 
-  dirFiles.forEach(dirFile => {
+  dirFiles.forEach((dirFile) => {
     const currentDir = path.join(dir, dirFile);
     fs.statSync(currentDir).isDirectory(dir)
       ? allFiles = getAllFiles(currentDir, allFiles)
@@ -31,7 +31,7 @@ const getAllFiles = (dir, allFiles) => {
   });
 
   return allFiles;
-}
+};
 
 // Get configs from json file in dir
 const getConfigs = () => {
@@ -41,19 +41,20 @@ const getConfigs = () => {
     return DEFAULT_OPTIONS;
   }
 
+  // eslint-disable-next-line
   return require(configsFile);
-}
+};
 
-// Check if a file is hidden. 
-const isHiddenFile = (file) => (/(^|\/)\.[^\/\.]/g).test(file);
+// Check if a file is hidden.
+const isHiddenFile = (file) => (/(^|\/)\.[^/.]/g).test(file);
 
 // get valid files to add new line to
 const getFilesToProcess = (files, configs) => {
   let filesToProcess = [];
-  const hiddenFiles = files.filter(isHiddenFile); 
+  const hiddenFiles = files.filter(isHiddenFile);
 
   filesToProcess = configs.includeHiddenFiles ? hiddenFiles
-    : files.filter(file => !hiddenFiles.includes(file));
+    : files.filter((file) => !hiddenFiles.includes(file));
 
   if (!configs.hasOwnProperty('ignore')) {
     filesToProcess = [
@@ -72,7 +73,7 @@ const getFilesToProcess = (files, configs) => {
   }
 
   return filesToProcess;
-}
+};
 
 // Add new line to the file
 const addNewLine = (file) => {
@@ -88,18 +89,17 @@ const addNewLine = (file) => {
 
   console.log(`Writing new line for the file ${partialFileName}`);
   try {
+    // eslint-disable-next-line consistent-return
     return fs.writeFileSync(file, fileContent);
-  } catch(er) {
+  } catch (er) {
     console.error(`Couldnt write to ${partialFileName}! Check read/write permissions to this directory`);
     process.exit(1);
   }
 };
 
 // Get files from args
-const getFilesFromArgs = () => {
-  return process.argv.slice(2)
-    .map(file => path.join(process.cwd(), file));
-}
+const getFilesFromArgs = () => process.argv.slice(2)
+  .map((file) => path.join(process.cwd(), file));
 
 // Main application
 const mainApp = () => {
@@ -118,14 +118,14 @@ const mainApp = () => {
   configs.ignore.extensions = IGNORED_EXTENSIONS;
   const filesToProcess = getFilesToProcess(allFiles, configs);
 
-  if (!filesToProcess.length) {
+  if (!isNonEmptyArray(filesToProcess)) {
     console.log('No files to add new line');
     process.exit(1);
   }
 
   // Add new lines to picked files
-  filesToProcess.forEach(addNewLine);
-}
+  return filesToProcess.forEach(addNewLine);
+};
 
 mainApp();
 
